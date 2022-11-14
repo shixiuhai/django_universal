@@ -208,7 +208,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # DRF配置项
 REST_FRAMEWORK = {
     # 全局配置异常模块
-    'EXCEPTION_HANDLER': 'django_universal.utils.exceptions.exception_handler',
+    'EXCEPTION_HANDLER': 'django_universal.utils.exceptions.custom_exception_handler',
     # 修改默认返回JSON的renderer的类
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'apiProject.utils.rendererresponse.customrenderer',
