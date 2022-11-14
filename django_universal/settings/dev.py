@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -205,21 +206,37 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # }
 
 # DRF配置项
-# REST_FRAMEWORK = {
-#     # 全局配置异常模块
-#     'EXCEPTION_HANDLER': 'apiProject.utils.exception.custom_exception_handler',
-#     # 修改默认返回JSON的renderer的类
-#     'DEFAULT_RENDERER_CLASSES': (
-#         'apiProject.utils.rendererresponse.customrenderer',
-#     ),
-#     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         # 登录方式
-#         'rest_framework_simplejwt.authentication.JWTAuthentication'
-#     ],
-#     # 分页
-#     'DEFAULT_PAGINATION_CLASS': 'apiProject.utils.pagination.StandardResultsSetPagination',
+REST_FRAMEWORK = {
+    # 全局配置异常模块
+    'EXCEPTION_HANDLER': 'django_universal.utils.exceptions.exception_handler',
+    # 修改默认返回JSON的renderer的类
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'apiProject.utils.rendererresponse.customrenderer',
+    # ),
+    'DEFAULT_PERMISSION_CLASSES':[
+            'rest_framework.permissions.IsAuthenticated',  # 登录验证
+            'django_universal.utils.permissions.RbacPermission',  # 自定义权限认证
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 登录方式
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    ],
+    # 修改默认响应相关类
+    'DEFAULT_RENDERER_CLASSES': (
+        'django_universal.utils.rendererresponse.customrenderer',
+    ),
 
-# }
+    # 分页
+    'DEFAULT_PAGINATION_CLASS': 'django_universal.utils.pagination.StandardResultsSetPagination',
+
+}
+
+# simple_jwt配置
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # 访问令牌的有效时间
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # 刷新令牌的有效时间
+  
+}
 
 
